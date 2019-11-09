@@ -18,15 +18,6 @@ const schema = new mongoose.Schema({
   },
 });
 
-// schema.index(
-//   {title: 'text', description: 'text'},
-//   {
-//     weights: {title: 10, description: 5},
-//     default_language: 'russian',
-//     name: 'TextSearchIndex',
-//   }
-// );
-
 schema.path('lastVisit').index({expires: '1d'});
 
 module.exports = connection.model('Session', schema);

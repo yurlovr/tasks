@@ -4,6 +4,7 @@ const Router = require('koa-router');
 const handleMongooseValidationError = require('./libs/validationErrors');
 const { testController } = require('./controllers/testController');
 const { addTask } = require('./controllers/addTask');
+const { addCategory } = require('./controllers/addCategory');
 const { checkAnswer } = require('./controllers/checkAnswer');
 const { getSolution } = require('./controllers/getSolution');
 const { nextTask } = require('./controllers/nextTask');
@@ -33,7 +34,6 @@ app.use(async (ctx, next) => {
     ctx.login = async function(user) {
       const token = uuid();
       await Session.create({token, user, lastVisit: new Date()});
-  
       return token;
     };
   
@@ -49,6 +49,8 @@ app.use(async (ctx, next) => {
   router.post('/test', testController);
   // добавление задачи
   router.post('/addTask', addTask);
+  // добавление категории (темы)
+  router.post('/addCategory', addCategory);
   // Следующая задача
   router.post('/nextTask', nextTask);
   // Получить решение задачи

@@ -51,7 +51,6 @@ const userSchema = new mongoose.Schema({
   receivedAnswers: {
     subCategory: {
       type: mongoose.Types.ObjectId,
-      ref: 'subCategory'
     },
     taskNumber: {
       type: mongoose.Types.ObjectId,

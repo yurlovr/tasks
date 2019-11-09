@@ -1,24 +1,9 @@
 const mongoose = require('mongoose');
 const connection = require('../libs/connection');
 
-const subCategorySchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Schema.ObjectId,
-    require: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  }
-});
-
 const taskSchema = new mongoose.Schema({
   id: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     require: true,
   },
   title: {
@@ -45,17 +30,12 @@ const taskSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  categoories: [subCategorySchema],
+  category: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
 });
 
 
-// taskSchema.index(
-//   {taskNumber: 'text'},
-//   {
-//     default_language: 'russian',
-//     name: 'TextSearchIndex',
-//   }
-// );
-
 module.exports = connection.model('Task', taskSchema);
-module.exports = connection.model('subCategory', subCategorySchema);
