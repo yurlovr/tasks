@@ -13,7 +13,20 @@ const categorySchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
-  }
+  },
+  subject: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Subject'
+    }
+  ],
+  classNumber: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Class'
+    }
+  ]
+  
 });
 
 categorySchema.index(

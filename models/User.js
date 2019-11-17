@@ -37,26 +37,31 @@ const userSchema = new mongoose.Schema({
     type: [String],
   },
   // Решенные задачи
-  solutionTasks: {
-    subCategory: {
-      type: mongoose.Types.ObjectId,
-      ref: 'subCategory'
-    },
-    taskNumber: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Task'
+  solutionTasks: [
+    { 
+      task: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Task'
+      },
+      category: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Category'
+      } 
     }
-  },
+  ],
   // Полученные решения
-  receivedAnswers: {
-    subCategory: {
-      type: mongoose.Types.ObjectId,
-    },
-    taskNumber: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Task'
+  receivedAnswers: [
+    { 
+      task: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Task'
+      },
+      category: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Category'
+      } 
     }
-  }
+  ]
 }, {
   timestamps: true,
 });

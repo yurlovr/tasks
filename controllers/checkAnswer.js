@@ -1,4 +1,5 @@
 const Task = require ('../models/Task');
+const User = require('../models/User');
 
 /* Получаем ответ от пользователя,
    Находим задачу в базе
@@ -20,6 +21,12 @@ module.exports.checkAnswer = async function checkAnswer (ctx, next) {
         ctx.body = {isError: true, message: 'Неправильный ответ'}
     } 
     if (answer === task.answer) {
+        if (!ctx.user.solutionTasks.some(obj => task._id.equals(obj.task))) {
+            const user = await User.findOne({ email: ctx.user.email });
+            user.solutionTasks = ctx.user.solutionTasks.concat({ task: task._id, category: task.category });
+            await user.save()
+            ctx.user = user
+        }
         ctx.status = 200;
         ctx.body = {isError: false, message: 'Правильный ответ'}
     } 

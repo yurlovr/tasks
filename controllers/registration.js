@@ -23,8 +23,9 @@ module.exports.register = async (ctx, next) => {
 //     locals: {token: verificationToken},
 //     template: 'confirmation',
 //   });
+const token = await ctx.login(user);
   
-  ctx.body = {status: 'Пользователь создан', token: verificationToken};
+  ctx.body = {status: 'Пользователь создан', token};
 };
 
 // Подтверждение регистрации

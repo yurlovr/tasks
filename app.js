@@ -3,13 +3,16 @@ const uuid = require('uuid/v4');
 const Router = require('koa-router');
 const handleMongooseValidationError = require('./libs/validationErrors');
 const { testController } = require('./controllers/testController');
+const { createClass } = require('./controllers/createClass');
+const { createSubject } = require('./controllers/createSubject');
 const { addTask } = require('./controllers/addTask');
 const { addCategory } = require('./controllers/addCategory');
 const { checkAnswer } = require('./controllers/checkAnswer');
 const { getSolution } = require('./controllers/getSolution');
 const { nextTask } = require('./controllers/nextTask');
-const {login} = require('./controllers/login');
-const {register} = require('./controllers/registration');
+const { login } = require('./controllers/login');
+const { register } = require('./controllers/registration');
+const mustBeAuth = require('./libs/mustBeAuth')
 const Session = require('./models/Session');
 
 const app = new Koa();
@@ -41,22 +44,50 @@ app.use(async (ctx, next) => {
   });
 
   const router = new Router({prefix: '/api'});
+
+  router.use(async (ctx, next) => {
+    const token = ctx.request.get('Authorization');
+    if (!token) return next();
+  
+    // const token = header.split(' ')[1];
+    // console.log(token)
+    // if (!token) return next();
+  
+    const session = await Session.findOne({token}).populate('user');
+    if (!session) {
+      ctx.throw(401, 'Неверный аутентификационный токен');
+    }
+    session.lastVisit = new Date();
+    await session.save();
+  
+    ctx.user = session.user;
+    return next();
+  });
+
+  router.post('/test', testController);
+
   // Регистрация
   router.post('/register', handleMongooseValidationError, register);
   // Вход
   router.post('/login', login);
-  
-  router.post('/test', testController);
-  // добавление задачи
-  router.post('/addTask', addTask);
+
+  // Создание класса
+  router.post('/createClass', createClass);
+  // Создание предмета
+  router.post('/createSubject', createSubject);
   // добавление категории (темы)
   router.post('/addCategory', addCategory);
+  // добавление задачи
+  router.post('/addTask', addTask);
+  // все предметы для данного класса
+  // все темы для данного класса и предмета
+  // все задачи для данного предмета
   // Следующая задача
-  router.post('/nextTask', nextTask);
+  router.post('/nextTask', mustBeAuth, nextTask);
   // Получить решение задачи
-  router.post('/solution', getSolution);
+  router.post('/solution', mustBeAuth, getSolution);
   // Проверить ответ задачи
-  router.post('/checkAnswer', checkAnswer);
+  router.post('/checkAnswer', mustBeAuth, checkAnswer);
 
   app.use(router.routes());
 
