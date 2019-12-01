@@ -7,6 +7,9 @@ const { createClass } = require('./controllers/createClass');
 const { createSubject } = require('./controllers/createSubject');
 const { addTask } = require('./controllers/addTask');
 const { addCategory } = require('./controllers/addCategory');
+const { allClass } = require('./controllers/allClass');
+const { allSubject } = require('./controllers/allSubject');
+const { allCategory } = require('./controllers/allCategory');
 const { checkAnswer } = require('./controllers/checkAnswer');
 const { getSolution } = require('./controllers/getSolution');
 const { nextTask } = require('./controllers/nextTask');
@@ -80,11 +83,11 @@ app.use(async (ctx, next) => {
   // добавление задачи
   router.post('/addTask', addTask);
   // Все классы
-  router.post('/allClass');
+  router.post('/allClass', mustBeAuth, allClass);
   // все предметы для данного класса
-  router.post('/allSubject');
+  router.post('/allSubject', mustBeAuth, allSubject);
   // все темы для данного класса и предмета
-  router.post('/allCategory');
+  router.post('/allCategory',  mustBeAuth, allCategory);
   // все задачи для данного предмета
   router.post('/allTaskForCategory');
   // Следующая задача
