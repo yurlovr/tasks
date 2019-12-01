@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const connection = require('../libs/connection');
+const Class = require('../models/Class');
 
 const subjectSchema = new mongoose.Schema({
   id: {
@@ -13,10 +14,10 @@ const subjectSchema = new mongoose.Schema({
   classNumber: [
       {
         type: mongoose.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Class'
     }
 ],
-  categoty: [
+  category: [
     {
         type: mongoose.Types.ObjectId,
         ref: 'Category'

@@ -79,9 +79,14 @@ app.use(async (ctx, next) => {
   router.post('/addCategory', addCategory);
   // добавление задачи
   router.post('/addTask', addTask);
+  // Все классы
+  router.post('/allClass');
   // все предметы для данного класса
+  router.post('/allSubject');
   // все темы для данного класса и предмета
+  router.post('/allCategory');
   // все задачи для данного предмета
+  router.post('/allTaskForCategory');
   // Следующая задача
   router.post('/nextTask', mustBeAuth, nextTask);
   // Получить решение задачи
