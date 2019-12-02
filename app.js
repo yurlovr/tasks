@@ -10,6 +10,7 @@ const { addCategory } = require('./controllers/addCategory');
 const { allClass } = require('./controllers/allClass');
 const { allSubject } = require('./controllers/allSubject');
 const { allCategory } = require('./controllers/allCategory');
+const { allTaskForCategory } = require('./controllers/allTaskForCategory');
 const { checkAnswer } = require('./controllers/checkAnswer');
 const { getSolution } = require('./controllers/getSolution');
 const { nextTask } = require('./controllers/nextTask');
@@ -89,7 +90,7 @@ app.use(async (ctx, next) => {
   // все темы для данного класса и предмета
   router.post('/allCategory',  mustBeAuth, allCategory);
   // все задачи для данного предмета
-  router.post('/allTaskForCategory');
+  router.post('/allTaskForCategory', mustBeAuth, allTaskForCategory);
   // Следующая задача
   router.post('/nextTask', mustBeAuth, nextTask);
   // Получить решение задачи

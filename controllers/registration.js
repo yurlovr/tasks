@@ -4,13 +4,15 @@ const User = require('../models/User');
 
 module.exports.register = async (ctx, next) => {
   const verificationToken = uuid();
-  const {email, displayName, password } = ctx.request.body
+  const {email, displayName, password, classNumber } = ctx.request.body
   if (!email) ctx.throw(401, 'Для регистрации необходим email');
   if (!displayName) ctx.throw(401, 'Для регистрации необходимо Имя пользователя');
-  if (!password) ctx.throw(401, 'Для регистрации необходим password'); 
+  if (!password) ctx.throw(401, 'Для регистрации необходим password');
+  if (!classNumber) ctx.throw(401, 'Для регистрации необходим номер класса'); 
   const user = new User({
-    email: email,
-    displayName: displayName,
+    email,
+    displayName,
+    classNumber,
     verificationToken,
   });
 
@@ -24,8 +26,17 @@ module.exports.register = async (ctx, next) => {
 //     template: 'confirmation',
 //   });
 const token = await ctx.login(user);
+console.log(user);
   
-  ctx.body = {status: 'Пользователь создан', token};
+  ctx.body = {
+    status: 'Пользователь создан', 
+    token,
+    user: {
+      displayName: user.displayName,
+      email: user.email,
+      classNumber: user.classNumber
+    }
+  };
 };
 
 // Подтверждение регистрации

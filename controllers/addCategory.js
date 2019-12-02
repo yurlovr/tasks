@@ -3,10 +3,10 @@ const Class = require('../models/Class');
 const Subject = require('../models/Subject');
 
 module.exports.addCategory = async function addCategory (ctx, next) {
- const { classNumber, subject, title, description } = ctx.request.body;
+ const { classNumber, subjectId, title, description } = ctx.request.body;
  // валидация всех полей для создания задачи
 if (!classNumber) return ctx.throw(400,'Не задан класс для темы предмета');
-if (!subject) return ctx.throw(400,'Нетзадан предмет');
+if (!subjectId) return ctx.throw(400,'Не задан предмет');
 if (!title) return ctx.throw(400, 'Нет назавния темы');
 if (!description) return ctx.throw(400,'Нет описания темы');
 // проверить есть ли такая тема 
@@ -20,7 +20,7 @@ if (catygory) {
 } else {
     const currentClass = await Class.findOne({ classNumber });
     if (!currentClass) return ctx.throw(400, 'Такого класса нет, создайте сначала класс');
-    const currentSubject = await Subject.findOne({ subject });
+    const currentSubject = await Subject.findById(subjectId);
     if (!currentSubject) return ctx.throw(400, 'Такого предмета нет, создайте сначала предмет');
     const newCategory  = new Category ({
         title,
