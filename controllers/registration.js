@@ -26,7 +26,6 @@ module.exports.register = async (ctx, next) => {
 //     template: 'confirmation',
 //   });
 const token = await ctx.login(user);
-console.log(user);
   
   ctx.body = {
     status: 'Пользователь создан', 

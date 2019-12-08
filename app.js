@@ -13,9 +13,12 @@ const { allCategory } = require('./controllers/allCategory');
 const { allTaskForCategory } = require('./controllers/allTaskForCategory');
 const { checkAnswer } = require('./controllers/checkAnswer');
 const { getSolution } = require('./controllers/getSolution');
-const { nextTask } = require('./controllers/nextTask');
+const { getTask } = require('./controllers/getTask');
 const { login } = require('./controllers/login');
 const { register } = require('./controllers/registration');
+const { getUserAwards } = require('./controllers/getUserAwards');
+const { getUserSolutionTasks } = require('./controllers/getUserSolutionTasks');
+const { getUserReceivedAnswers } = require('./controllers/getUserReceivedAnswers');
 const mustBeAuth = require('./libs/mustBeAuth')
 const Session = require('./models/Session');
 
@@ -80,9 +83,9 @@ app.use(async (ctx, next) => {
   // Создание предмета
   router.post('/createSubject', createSubject);
   // добавление категории (темы)
-  router.post('/addCategory', addCategory);
+  router.post('/createCategory', addCategory);
   // добавление задачи
-  router.post('/addTask', addTask);
+  router.post('/createTask', addTask);
   // Все классы
   router.post('/allClass', mustBeAuth, allClass);
   // все предметы для данного класса
@@ -92,11 +95,17 @@ app.use(async (ctx, next) => {
   // все задачи для данного предмета
   router.post('/allTaskForCategory', mustBeAuth, allTaskForCategory);
   // Следующая задача
-  router.post('/nextTask', mustBeAuth, nextTask);
+  router.post('/getTask', mustBeAuth, getTask);
   // Получить решение задачи
   router.post('/solution', mustBeAuth, getSolution);
   // Проверить ответ задачи
   router.post('/checkAnswer', mustBeAuth, checkAnswer);
+  // Получение всех наград пользователя
+  router.post('/getUserAwards', mustBeAuth, getUserAwards);
+  // Получение всех решенных задач пользователем
+  router.post('/getUserSolutionTasks', mustBeAuth, getUserSolutionTasks);
+  // Получение всех подсмотренных решений задач пользователем
+  router.post('/getUserReceivedAnswers', mustBeAuth, getUserReceivedAnswers);
 
   app.use(router.routes());
 

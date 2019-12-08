@@ -12,6 +12,16 @@ module.exports.login = async function login(ctx, next) {
     }
 
     const token = await ctx.login(user);
-    ctx.body = {token};
+    const userId = user._id
+    ctx.body = {
+      token,
+      displayName: user.displayName,
+      email: user.email,
+      classNumber: user.classNumber,
+      solutionTasks: user.solutionTasks,
+      receivedAnswers: user.receivedAnswers,
+      awards: user.awards,
+      userId
+    };
   })(ctx, next);
 };

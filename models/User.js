@@ -50,7 +50,11 @@ const userSchema = new mongoose.Schema({
       category: {
         type: mongoose.Types.ObjectId,
         ref: 'Category'
-      } 
+      },
+      classNumber: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Class'
+      }  
     }
   ],
   // Полученные решения
@@ -63,7 +67,11 @@ const userSchema = new mongoose.Schema({
       category: {
         type: mongoose.Types.ObjectId,
         ref: 'Category'
-      } 
+      },
+      classNumber: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Class'
+      }  
     }
   ]
 }, {

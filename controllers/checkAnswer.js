@@ -14,8 +14,10 @@ const User = require('../models/User');
 */ 
 
 module.exports.checkAnswer = async function checkAnswer (ctx, next) {
-    const { answer, taskNumber } = ctx.request.body;
-    const task = await Task.findOne({taskNumber});
+    const { answer, taskId } = ctx.request.body;
+    if (!answer) return ctx.throw(401, "Необходимо указать ответ");
+    if (!taskId) return ctx.throw(401, "Необходимо указать taskId");
+    const task = await Task.findById(taskId);
     if (answer !== task.answer) {
         ctx.status = 200;
         ctx.body = {isError: true, message: 'Неправильный ответ'}
@@ -23,7 +25,7 @@ module.exports.checkAnswer = async function checkAnswer (ctx, next) {
     if (answer === task.answer) {
         if (!ctx.user.solutionTasks.some(obj => task._id.equals(obj.task))) {
             const user = await User.findOne({ email: ctx.user.email });
-            user.solutionTasks = ctx.user.solutionTasks.concat({ task: task._id, category: task.category });
+            user.solutionTasks = ctx.user.solutionTasks.concat({ task: task._id, category: task.category, classNumber: task.classNumber });
             await user.save()
             ctx.user = user
         }
