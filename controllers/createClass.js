@@ -14,5 +14,5 @@ module.exports.createClass = async function createClass (ctx, next) {
   ctx.status = 200;
   ctx.body = {
     isError: false,
-    message: 'Класс создан'}
+    message: `${classNumber} - класс создан`}
 }

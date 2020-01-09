@@ -1,6 +1,7 @@
 const Category = require('../models/Category');
 const Class = require('../models/Class');
 const Subject = require('../models/Subject');
+const ADMIN = require('../const/const');
 
 module.exports.addCategory = async function addCategory (ctx, next) {
  const { classNumber, subjectId, title, description } = ctx.request.body;

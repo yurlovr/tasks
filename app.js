@@ -23,7 +23,8 @@ const { notSolutionTasks } = require('./controllers/notSolutionTasks');
 const { alreadySolutionTasks } = require('./controllers/alreadySolutionTasks');
 const { alreadyReceivedAnswers } = require('./controllers/alreadyReceivedAnswers');
 const { logOut } = require('./controllers/logOut');
-const mustBeAuth = require('./libs/mustBeAuth')
+const mustBeAuth = require('./libs/mustBeAuth');
+const isAdmin = require('./libs/isAdmin');
 const Session = require('./models/Session');
 
 const app = new Koa();
@@ -83,13 +84,13 @@ app.use(async (ctx, next) => {
   router.post('/login', login);
 
   // Создание класса
-  router.post('/createClass', createClass);
+  router.post('/createClass', isAdmin, createClass);
   // Создание предмета
-  router.post('/createSubject', createSubject);
+  router.post('/createSubject', isAdmin, createSubject);
   // добавление категории (темы)
-  router.post('/createCategory', addCategory);
+  router.post('/createCategory', isAdmin, addCategory);
   // добавление задачи
-  router.post('/createTask', addTask);
+  router.post('/createTask', isAdmin, addTask);
   // Все классы
   router.post('/allClass',  mustBeAuth ,allClass);
   // все предметы для данного класса
