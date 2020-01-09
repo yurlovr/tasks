@@ -33,7 +33,10 @@ const token = await ctx.login(user);
     user: {
       displayName: user.displayName,
       email: user.email,
-      classNumber: user.classNumber
+      classNumber: user.classNumber,
+      awards: user.awards,
+      solutionTasks: user.solutionTasks,
+      receivedAnswers: user.receivedAnswers
     }
   };
 };

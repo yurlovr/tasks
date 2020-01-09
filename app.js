@@ -19,6 +19,8 @@ const { register } = require('./controllers/registration');
 const { getUserAwards } = require('./controllers/getUserAwards');
 const { getUserSolutionTasks } = require('./controllers/getUserSolutionTasks');
 const { getUserReceivedAnswers } = require('./controllers/getUserReceivedAnswers');
+const { notSolutionTasks } = require('./controllers/notSolutionTasks');
+const { logOut } = require('./controllers/logOut');
 const mustBeAuth = require('./libs/mustBeAuth')
 const Session = require('./models/Session');
 
@@ -94,6 +96,8 @@ app.use(async (ctx, next) => {
   router.post('/allCategory',  mustBeAuth, allCategory);
   // все задачи для данного предмета
   router.post('/allTaskForCategory', mustBeAuth, allTaskForCategory);
+  // все задачи для данного предмета, которые пользователь еще не решил
+  router.post('/notSolutionTasks', mustBeAuth, notSolutionTasks);
   // Следующая задача
   router.post('/getTask', mustBeAuth, getTask);
   // Получить решение задачи
@@ -106,6 +110,8 @@ app.use(async (ctx, next) => {
   router.post('/getUserSolutionTasks', mustBeAuth, getUserSolutionTasks);
   // Получение всех подсмотренных решений задач пользователем
   router.post('/getUserReceivedAnswers', mustBeAuth, getUserReceivedAnswers);
+  // Сделать logOut пользователя => удаляем сессию
+  router.post('/logOut', mustBeAuth, logOut);
 
   app.use(router.routes());
 

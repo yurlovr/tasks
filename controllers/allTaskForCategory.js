@@ -8,7 +8,7 @@ const allTasks = await Task.find({category: categoryId});
 const result = allTasks.map(item => {
    const {title, task, taskNumber, classNumber, subject, category } = item
    const taskId = item._id
-   return {title, taskNumber, classNumber, subject, category, taskId}
+   return {title, taskNumber, classNumber, subject, category, taskId, task}
 })
  ctx.status = 200;
  ctx.body = { tasks: result };
